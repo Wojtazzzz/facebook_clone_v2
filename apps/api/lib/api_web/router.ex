@@ -7,6 +7,8 @@ defmodule ApiWeb.Router do
 
   scope "/api", ApiWeb do
     pipe_through :api
+
+    resources "/users", UserController
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
