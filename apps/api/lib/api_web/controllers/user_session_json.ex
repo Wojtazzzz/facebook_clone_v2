@@ -1,4 +1,4 @@
-defmodule ApiWeb.UserRegistrationJSON do
+defmodule ApiWeb.UserSessionJSON do
   @doc """
   Renders a user data after successful log in.
   """
@@ -9,9 +9,7 @@ defmodule ApiWeb.UserRegistrationJSON do
   @doc """
   Renders error messages after an invalid registration.
   """
-  def error(%{changeset: %Ecto.Changeset{} = changeset}) do
-    %{errors: Enum.map(changeset.errors, fn {field, {message, _}} ->
-      %{field => message}
-    end)}
+  def error(%{error: error}) do
+    %{error: error}
   end
 end

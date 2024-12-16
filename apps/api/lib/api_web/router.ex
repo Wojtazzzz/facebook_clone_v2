@@ -15,24 +15,21 @@ defmodule ApiWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
-  end
-
-  scope "/", ApiWeb do
-    pipe_through :browser
-
-    get "/", PageController, :home
+    plug :fetch_session
   end
 
   scope "/api", ApiWeb do
     pipe_through :api
 
     post "/users/register", UserRegistrationController, :create
+    post "/users/login", UserSessionController, :create
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", ApiWeb do
-  #   pipe_through :api
-  # end
+  scope "/api", ApiWeb do
+    pipe_through :api
+
+    post "/users/logout", UserSessionController, :delete
+  end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
   if Application.compile_env(:api, :dev_routes) do
@@ -74,13 +71,13 @@ defmodule ApiWeb.Router do
     get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
   end
 
-  scope "/", ApiWeb do
-    pipe_through [:browser]
+  # scope "/", ApiWeb do
+  #   pipe_through [:browser]
 
-    delete "/users/log_out", UserSessionController, :delete
+    # delete "/users/log_out", UserSessionController, :delete
     # get "/users/confirm", UserConfirmationController, :new
     # post "/users/confirm", UserConfirmationController, :create
     # get "/users/confirm/:token", UserConfirmationController, :edit
     # post "/users/confirm/:token", UserConfirmationController, :update
-  end
+  # end
 end
