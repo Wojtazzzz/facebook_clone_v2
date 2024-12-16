@@ -23,6 +23,12 @@ defmodule ApiWeb.Router do
     get "/", PageController, :home
   end
 
+  scope "/api", ApiWeb do
+    pipe_through :api
+
+    post "/users/register", UserRegistrationController, :create
+  end
+
   # Other scopes may use custom stacks.
   # scope "/api", ApiWeb do
   #   pipe_through :api
@@ -50,14 +56,14 @@ defmodule ApiWeb.Router do
   scope "/", ApiWeb do
     pipe_through [:browser, :redirect_if_user_is_authenticated]
 
-    get "/users/register", UserRegistrationController, :new
-    post "/users/register", UserRegistrationController, :create
-    get "/users/log_in", UserSessionController, :new
-    post "/users/log_in", UserSessionController, :create
-    get "/users/reset_password", UserResetPasswordController, :new
-    post "/users/reset_password", UserResetPasswordController, :create
-    get "/users/reset_password/:token", UserResetPasswordController, :edit
-    put "/users/reset_password/:token", UserResetPasswordController, :update
+    # get "/users/register", UserRegistrationController, :new
+    # post "/users/register", UserRegistrationController, :create
+    # get "/users/log_in", UserSessionController, :new
+    # post "/users/log_in", UserSessionController, :create
+    # get "/users/reset_password", UserResetPasswordController, :new
+    # post "/users/reset_password", UserResetPasswordController, :create
+    # get "/users/reset_password/:token", UserResetPasswordController, :edit
+    # put "/users/reset_password/:token", UserResetPasswordController, :update
   end
 
   scope "/", ApiWeb do
@@ -72,9 +78,9 @@ defmodule ApiWeb.Router do
     pipe_through [:browser]
 
     delete "/users/log_out", UserSessionController, :delete
-    get "/users/confirm", UserConfirmationController, :new
-    post "/users/confirm", UserConfirmationController, :create
-    get "/users/confirm/:token", UserConfirmationController, :edit
-    post "/users/confirm/:token", UserConfirmationController, :update
+    # get "/users/confirm", UserConfirmationController, :new
+    # post "/users/confirm", UserConfirmationController, :create
+    # get "/users/confirm/:token", UserConfirmationController, :edit
+    # post "/users/confirm/:token", UserConfirmationController, :update
   end
 end
