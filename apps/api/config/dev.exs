@@ -5,10 +5,11 @@ config :api, Api.Repo,
   username: "postgres",
   password: "postgres",
   hostname: "localhost",
-  database: "api_dev",
+  database: "facebook_clone_v2",
   stacktrace: true,
   show_sensitive_data_on_connection_error: true,
-  pool_size: 10
+  pool_size: 10,
+  port: 5436
 
 # For development, we disable any cache and enable
 # debugging and code reloading.
