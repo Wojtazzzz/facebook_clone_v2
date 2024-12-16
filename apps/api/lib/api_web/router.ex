@@ -16,17 +16,19 @@ defmodule ApiWeb.Router do
   pipeline :api do
     plug :accepts, ["json"]
     plug :fetch_session
+    plug :fetch_current_user
+    plug :put_secure_browser_headers
   end
 
   scope "/api", ApiWeb do
-    pipe_through :api
+    pipe_through [:api, :redirect_if_user_is_authenticated]
 
     post "/users/register", UserRegistrationController, :create
     post "/users/login", UserSessionController, :create
   end
 
   scope "/api", ApiWeb do
-    pipe_through :api
+    pipe_through [:api, :require_authenticated_user]
 
     post "/users/logout", UserSessionController, :delete
   end
