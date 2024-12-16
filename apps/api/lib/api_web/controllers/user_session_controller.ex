@@ -12,7 +12,9 @@ defmodule ApiWeb.UserSessionController do
       |> UserAuth.log_in_user(user)
       |> render(:new, user: user)
     else
-      render(conn, :error, error: "Invalid email or password")
+      conn
+      |> put_status(401)
+      |> render(:error, error: "Invalid email or password")
     end
   end
 
