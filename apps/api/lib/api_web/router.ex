@@ -31,6 +31,8 @@ defmodule ApiWeb.Router do
     pipe_through [:api, :require_authenticated_user]
 
     post "/users/logout", UserSessionController, :delete
+
+    get "/user_posts/index", UserPostController, :index
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
