@@ -7,7 +7,14 @@ type InputTextProps = {
 	setValue: (value: string) => void;
 };
 
-export const InputText = ({ type, name, ariaLabel, placeholder, value, setValue }: InputTextProps) => {
+export const InputText = ({
+	type,
+	name,
+	ariaLabel,
+	placeholder,
+	value,
+	setValue,
+}: InputTextProps) => {
 	return (
 		<input
 			type={type}
