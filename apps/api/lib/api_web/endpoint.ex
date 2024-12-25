@@ -15,7 +15,11 @@ defmodule ApiWeb.Endpoint do
     websocket: [connect_info: [session: @session_options]],
     longpoll: [connect_info: [session: @session_options]]
 
-  plug Corsica, origins: "*", allow_headers: ["content-type"]
+  plug Corsica,
+    origins: ["http://localhost:3000"],
+    allow_headers: ["content-type", "accept"],
+    allow_methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allow_credentials: true
 
   # Serve at "/" the static files from "priv/static" directory.
   #
