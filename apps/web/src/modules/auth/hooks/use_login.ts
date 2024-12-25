@@ -1,24 +1,25 @@
-import { fetchData } from "@/utils/fetch_data"
-import { useMutation } from "@tanstack/react-query"
+import { useMutation } from "@/hooks/use_mutation"
+
+type LoginPayload = {
+  email: string,
+  password: string
+}
 
 export const useLogin = () => {
-    const {mutate} = useMutation({
-        mutationFn: async (data: any) => {
-          return  await fetchData({
-            method: 'POST',
-            endpoint: '/users/login',
-            payload: {
-                user: {
-                    email: data.email,
-                    password: data.password,
-                }
-            }
-          })
-        },
-      })
+  const {mutate} = useMutation({
+    endpoint: '/users/login'
+  });
 
-      const login = (data: any) => {
-        mutate(data);
+
+  
+      const login = (data: LoginPayload) => {
+        mutate(
+            {
+              user: {
+                  email: data.email,
+                  password: data.password,
+              }
+          });
       }
 
     return {
