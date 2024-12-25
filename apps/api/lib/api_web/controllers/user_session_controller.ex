@@ -4,6 +4,11 @@ defmodule ApiWeb.UserSessionController do
   alias Api.Accounts
   alias ApiWeb.UserAuth
 
+  def show(conn, _params) do
+    conn
+    |> render(:new, user: conn.assigns.current_user)
+  end
+
   def create(conn, %{"user" => user_params}) do
     %{"email" => email, "password" => password} = user_params
 

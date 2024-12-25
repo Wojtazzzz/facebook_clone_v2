@@ -31,6 +31,7 @@ defmodule ApiWeb.Router do
     pipe_through [:api, :require_authenticated_user]
 
     post "/users/logout", UserSessionController, :delete
+    get "/users/me", UserSessionController, :show
 
     get "/user_posts/index", UserPostController, :index
   end
@@ -78,10 +79,10 @@ defmodule ApiWeb.Router do
   # scope "/", ApiWeb do
   #   pipe_through [:browser]
 
-    # delete "/users/log_out", UserSessionController, :delete
-    # get "/users/confirm", UserConfirmationController, :new
-    # post "/users/confirm", UserConfirmationController, :create
-    # get "/users/confirm/:token", UserConfirmationController, :edit
-    # post "/users/confirm/:token", UserConfirmationController, :update
+  # delete "/users/log_out", UserSessionController, :delete
+  # get "/users/confirm", UserConfirmationController, :new
+  # post "/users/confirm", UserConfirmationController, :create
+  # get "/users/confirm/:token", UserConfirmationController, :edit
+  # post "/users/confirm/:token", UserConfirmationController, :update
   # end
 end
