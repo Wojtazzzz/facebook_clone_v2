@@ -4,12 +4,12 @@ import Config
 config :api, Api.Repo,
   username: "postgres",
   password: "postgres",
-  hostname: "localhost",
+  hostname: "postgres",
   database: "facebook_clone_v2",
   stacktrace: true,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10,
-  port: 5436
+  port: 5432
 
 # For development, we disable any cache and enable
 # debugging and code reloading.
@@ -20,7 +20,7 @@ config :api, Api.Repo,
 config :api, ApiWeb.Endpoint,
   # Binding to loopback ipv4 address prevents access from other machines.
   # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
-  http: [ip: {127, 0, 0, 1}, port: 4000],
+  http: [ip: {0, 0, 0, 0}, port: 4000],
   check_origin: false,
   code_reloader: true,
   debug_errors: true,
