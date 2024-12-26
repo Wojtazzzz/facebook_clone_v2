@@ -13,9 +13,9 @@ defmodule ApiWeb.UserSessionController do
     %{"email" => email, "password" => password} = user_params
 
     if user = Accounts.get_user_by_email_and_password(email, password) do
-      conn
-      |> UserAuth.log_in_user(user)
-      |> render(:new, user: user)
+      token = UserAuth.log_in_user(user)
+
+      render(conn, :new, user: user, token: token)
     else
       conn
       |> put_status(401)

@@ -25,22 +25,17 @@ defmodule ApiWeb.UserAuth do
   disconnected on log out. The line can be safely removed
   if you are not using LiveView.
   """
-  def log_in_user(conn, user, params \\ %{}) do
-    token = Accounts.generate_user_session_token(user)
-
-    conn
-    |> renew_session()
-    |> put_token_in_session(token)
-    |> maybe_write_remember_me_cookie(token, params)
+  def log_in_user(user) do
+    Accounts.create_user_api_token(user)
   end
 
-  defp maybe_write_remember_me_cookie(conn, token, %{"remember_me" => "true"}) do
-    put_resp_cookie(conn, @remember_me_cookie, token, @remember_me_options)
-  end
+  # defp maybe_write_remember_me_cookie(conn, token, %{"remember_me" => "true"}) do
+  #   put_resp_cookie(conn, @remember_me_cookie, token, @remember_me_options)
+  # end
 
-  defp maybe_write_remember_me_cookie(conn, _token, _params) do
-    conn
-  end
+  # defp maybe_write_remember_me_cookie(conn, _token, _params) do
+  #   conn
+  # end
 
   # This function renews the session ID and erases the whole
   # session to avoid fixation attacks. If there is any data
@@ -217,4 +212,17 @@ defmodule ApiWeb.UserAuth do
   end
 
   defp signed_in_path(_conn), do: ~p"/"
+
+  def fetch_api_user(conn, _opts) do
+    with ["Bearer " <> token] <- get_req_header(conn, "authorization"),
+         {:ok, user} <- Accounts.fetch_user_by_api_token(token) do
+      assign(conn, :current_user, user)
+    else
+      _ ->
+        assign(conn, :current_user, nil)
+        # conn
+        # |> send_resp(:unauthorized, "No access for you")
+        # |> halt()
+    end
+  end
 end
