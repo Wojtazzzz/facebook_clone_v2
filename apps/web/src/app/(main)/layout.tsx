@@ -100,7 +100,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
 				</div>
 			</header>
 
-			{children}
+			<div className="mx-auto max-w-2xl w-full">{children}</div>
 		</div>
 	);
 }

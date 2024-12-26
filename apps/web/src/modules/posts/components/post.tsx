@@ -6,7 +6,7 @@ type PostProps = {
 
 export const Post = ({ post }: PostProps) => {
 	return (
-		<article className="max-w-xl mx-auto bg-white shadow-sm">
+		<article className="w-full mx-auto bg-white shadow-sm">
 			{/* Header */}
 			<header className="p-4 flex items-center justify-between">
 				<div className="flex items-center gap-2">
