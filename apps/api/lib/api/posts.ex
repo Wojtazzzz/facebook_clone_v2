@@ -17,6 +17,7 @@ defmodule Api.Posts do
       [%Post{}, ...]
 
   """
+
   # def list_posts do
   #   Repo.all(Post)
   # end
@@ -35,6 +36,7 @@ defmodule Api.Posts do
       ** (Ecto.NoResultsError)
 
   """
+
   # def get_post!(id), do: Repo.get!(Post, id)
 
   @doc """
@@ -49,6 +51,7 @@ defmodule Api.Posts do
       {:error, %Ecto.Changeset{}}
 
   """
+
   # def create_post(attrs \\ %{}) do
   #   %Post{}
   #   |> Post.changeset(attrs)
@@ -67,6 +70,7 @@ defmodule Api.Posts do
       {:error, %Ecto.Changeset{}}
 
   """
+
   # def update_post(%Post{} = post, attrs) do
   #   post
   #   |> Post.changeset(attrs)
@@ -85,6 +89,7 @@ defmodule Api.Posts do
       {:error, %Ecto.Changeset{}}
 
   """
+
   # def delete_post(%Post{} = post) do
   #   Repo.delete(post)
   # end
@@ -98,6 +103,7 @@ defmodule Api.Posts do
       %Ecto.Changeset{data: %Post{}}
 
   """
+
   # def change_post(%Post{} = post, attrs \\ %{}) do
   #   Post.changeset(post, attrs)
   # end
@@ -117,6 +123,6 @@ defmodule Api.Posts do
   def get_user_posts(user_id) do
     Post
     |> Ecto.Query.where(user_id: ^user_id)
-    |> Repo.all
+    |> Repo.all()
   end
 end

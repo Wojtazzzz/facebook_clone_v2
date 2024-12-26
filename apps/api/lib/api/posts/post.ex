@@ -4,7 +4,6 @@ defmodule Api.Posts.Post do
 
   schema "posts" do
     field :content, :string
-    field :title, :string
 
     belongs_to :user, Api.Accounts.User
 
@@ -14,9 +13,8 @@ defmodule Api.Posts.Post do
   @doc false
   def changeset(post, attrs) do
     post
-    |> cast(attrs, [:title, :content])
-    |> validate_required([:title, :content])
-    |> validate_length(:title, min: 3, max: 128)
+    |> cast(attrs, [:content])
+    |> validate_required([:content])
     |> validate_length(:content, min: 3, max: 1024)
   end
 end

@@ -11,8 +11,7 @@ defmodule ApiWeb.UserPostJSON do
   defp data(%Post{} = post) do
     %{
       id: post.id,
-      title: post.title,
-      content: post.content,
+      content: post.content
     }
   end
 end
