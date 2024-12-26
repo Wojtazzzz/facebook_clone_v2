@@ -33,7 +33,7 @@ defmodule ApiWeb.Router do
     post "/users/logout", UserSessionController, :delete
     get "/users/me", UserSessionController, :show
 
-    get "/user_posts/index", UserPostController, :index
+    get "/user_posts", UserPostController, :index
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development

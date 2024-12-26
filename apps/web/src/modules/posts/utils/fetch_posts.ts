@@ -19,7 +19,7 @@ export const fetchPosts = async () => {
 	const token = cookieStore.get('token')?.value;
 
 	return await api(token)
-		.get('/user_posts/index')
+		.get('/user_posts')
 		.unauthorized(() => {
 			redirect('/login');
 		})
