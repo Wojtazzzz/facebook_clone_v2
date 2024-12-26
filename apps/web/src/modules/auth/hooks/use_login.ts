@@ -1,5 +1,6 @@
 import { useMutation } from '@/hooks/use_mutation';
 import { useRouter } from 'next/navigation';
+import { loginAction } from '../utils/login_action';
 
 type LoginPayload = {
 	email: string;
@@ -9,9 +10,8 @@ type LoginPayload = {
 export const useLogin = () => {
 	const router = useRouter();
 
-	const { mutate } = useMutation({
-		endpoint: '/users/login',
-		method: 'POST',
+	const { mutate, error } = useMutation({
+		mutationFn: loginAction,
 		onSuccess: () => {
 			router.replace('/');
 		},
@@ -19,14 +19,13 @@ export const useLogin = () => {
 
 	const login = (data: LoginPayload) => {
 		mutate({
-			user: {
-				email: data.email,
-				password: data.password,
-			},
+			email: data.email,
+			password: data.password,
 		});
 	};
 
 	return {
 		login,
+		error,
 	};
 };

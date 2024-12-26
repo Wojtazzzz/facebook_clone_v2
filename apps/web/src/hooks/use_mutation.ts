@@ -1,27 +1,16 @@
-import { api } from '@/utils/api';
 import { useMutation as useMutationRQ } from '@tanstack/react-query';
 
-type MutationMethod = 'POST' | 'PUT' | 'PATCH' | 'DELETE';
-
-type UseMutationArgs = {
-	endpoint: string;
-	method: MutationMethod;
+type UseMutationArgs<TPayload> = {
 	onSuccess?: () => void;
+	mutationFn: (payload: TPayload) => Promise<void>;
 };
 
-export const useMutation = ({
-	endpoint,
-	method,
+export const useMutation = <TPayload>({
 	onSuccess,
-}: UseMutationArgs) => {
+	mutationFn,
+}: UseMutationArgs<TPayload>) => {
 	return useMutationRQ({
-		mutationFn: async (payload?: object) => {
-			return await api()
-				.url(endpoint)
-				.json(payload ?? {})
-				[method.toLocaleLowerCase() as Lowercase<MutationMethod>]()
-				.json();
-		},
-		onSuccess: onSuccess,
+		mutationFn,
+		onSuccess,
 	});
 };
