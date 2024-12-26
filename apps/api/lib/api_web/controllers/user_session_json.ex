@@ -1,10 +1,16 @@
 defmodule ApiWeb.UserSessionJSON do
   @doc """
-  Renders a user data after successful log in.
+  Renders a user data
   """
-  # def new(%{user: %Api.Accounts.User{} = user}) do
   def new(conn) do
-    %{user: %{email: conn.user.email}, token: conn.token}
+    %{
+      user: %{
+        id: conn.user.id,
+        email: conn.user.email,
+        image_url: conn.user.image_url
+      },
+      token: conn.token
+    }
   end
 
   @doc """

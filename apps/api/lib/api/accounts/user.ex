@@ -8,6 +8,7 @@ defmodule Api.Accounts.User do
     field :hashed_password, :string, redact: true
     field :current_password, :string, virtual: true, redact: true
     field :confirmed_at, :utc_datetime
+    field :image_url, :string
 
     has_many :posts, Api.Posts.Post
 
