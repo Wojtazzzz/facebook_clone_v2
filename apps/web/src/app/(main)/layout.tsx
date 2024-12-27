@@ -7,7 +7,7 @@ type MainLayoutProps = {
 
 export default function MainLayout({ children }: MainLayoutProps) {
 	return (
-		<div className="bg-gray-200 min-h-screen space-y-8">
+		<div className="space-y-8">
 			<header>
 				<Header />
 			</header>
