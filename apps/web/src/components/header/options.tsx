@@ -1,7 +1,7 @@
 'use client';
 
 import { useLogout } from '@/hooks/use_logout';
-import { IconButton } from '../icon_button';
+import { IconButton } from '../ui/icon_button';
 import { ExitIcon } from '../icons/exit_icon';
 import { NotificationsIcon } from '../icons/notifications_icon';
 

@@ -1,7 +1,7 @@
 'use client';
 
-import { Alert } from '@/components/alert';
-import { Button } from '@/components/button';
+import { Alert } from '@/components/ui/alert';
+import { Button } from '@/components/ui/button';
 import { FormGroup } from '@/components/form/form_group';
 import { InputText } from '@/components/form/input_text';
 import { useLogin } from '@/modules/auth/hooks/use_login';
