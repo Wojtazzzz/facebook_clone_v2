@@ -66,16 +66,18 @@ defmodule ApiWeb.UserAuth do
   It clears all session data for safety. See renew_session.
   """
   def log_out_user(conn) do
-    user_token = get_session(conn, :user_token)
-    user_token && Accounts.delete_user_session_token(user_token)
-
-    if live_socket_id = get_session(conn, :live_socket_id) do
-      ApiWeb.Endpoint.broadcast(live_socket_id, "disconnect", %{})
+    with ["Bearer " <> token] <- get_req_header(conn, "authorization"),
+         {:ok, user} <- Accounts.fetch_user_by_api_token(token),
+         true <- user.id == conn.assigns.current_user.id do
+      Accounts.delete_user_api_token(token)
+      assign(conn, :current_user, nil)
+    else
+      _ ->
+        conn
+        |> put_status(400)
+        |> json(%{"error" => "bad request"})
+        |> halt()
     end
-
-    conn
-    |> renew_session()
-    |> delete_resp_cookie(@remember_me_cookie)
   end
 
   @doc """

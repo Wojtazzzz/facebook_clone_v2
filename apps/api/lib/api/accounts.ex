@@ -374,4 +374,12 @@ defmodule Api.Accounts do
       _ -> :error
     end
   end
+
+  @doc """
+  Deletes the signed token with the given context.
+  """
+  def delete_user_api_token(token) do
+    Repo.delete_all(UserToken.by_token_and_context_query(token, "api-token"))
+    :ok
+  end
 end
