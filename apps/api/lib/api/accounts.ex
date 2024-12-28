@@ -382,4 +382,34 @@ defmodule Api.Accounts do
     Repo.delete_all(UserToken.by_token_and_context_query(token, "api-token"))
     :ok
   end
+
+  @doc """
+  Gets a user data by id for displaing profile page.
+
+  ## Examples
+
+      iex> get_user_profile_by_id(1)
+      %User{}
+
+      iex> get_user_profile_by_id(99999999)
+      nil
+
+  """
+  def get_user_profile_by_id(user_id) when is_integer(user_id) do
+    query =
+      from u in User,
+        where: u.id == ^user_id
+
+    Repo.one(query)
+  end
+
+  def get_user_with_posts(user_id) when is_integer(user_id) do
+    query =
+      from u in User,
+        where: u.id == ^user_id,
+        join: p in assoc(u, :posts),
+        preload: [posts: p]
+
+    Repo.one(query)
+  end
 end

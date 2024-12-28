@@ -1,19 +1,18 @@
 defmodule ApiWeb.UserPostController do
   use ApiWeb, :controller
 
-  alias Api.Posts
+  alias Api.Accounts
 
-  def index(conn, _params) do
-    posts = Posts.get_user_posts(conn.assigns.current_user.id)
-    render(conn, :index, posts: posts)
+  def index(conn, %{"user_id" => user_id}) do
+    case Integer.parse(user_id) do
+      {id, ""} ->
+        user = Accounts.get_user_with_posts(id)
+        render(conn, :index, user: user)
+
+      _ ->
+        conn
+        |> put_status(:bad_request)
+        |> json(%{error: "Invalid user_id param"})
+    end
   end
-
-  # def create(conn, %{"post" => log_params}) do
-  #   with {:ok, %Post{} = post} <- Logs.create_log(log_params) do
-  #     conn
-  #     |> put_status(:created)
-  #     |> put_resp_header("location", ~p"/api/logs/#{log}")
-  #     |> render(:show, log: log)
-  #   end
-  # end
 end
