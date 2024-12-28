@@ -8,11 +8,10 @@ type MainLayoutProps = {
 export default function MainLayout({ children }: MainLayoutProps) {
 	return (
 		<div className="space-y-8">
-			<header>
+			<header className="fixed top-0 left-0 z-30 w-full shadow-md">
 				<Header />
 			</header>
-
-			<div className="mx-auto max-w-2xl w-full">{children}</div>
+			{children}
 		</div>
 	);
 }
