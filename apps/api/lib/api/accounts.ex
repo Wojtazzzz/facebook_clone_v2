@@ -412,4 +412,10 @@ defmodule Api.Accounts do
 
     Repo.one(query)
   end
+
+  # def get_user_friends(user_id) when is_integer(user_id) do
+  #   User
+  #   |> Repo.get(user_id)
+  #   |> Repo.preload([:friends, :friends_of_mine])
+  # end
 end
