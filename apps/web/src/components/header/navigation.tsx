@@ -1,21 +1,24 @@
 import Link from 'next/link';
 import { HomeIcon } from '../icons/home_icon';
 import { PersonIcon } from '../icons/person_icon';
+import { fetchMe } from '@/utils/fetch_me';
 
-const links = [
-	{
-		href: '/',
-		icon: HomeIcon,
-		label: 'Home',
-	},
-	{
-		href: '/',
-		icon: PersonIcon,
-		label: 'Friends',
-	},
-] as const;
+export const Navigation = async () => {
+	const me = await fetchMe();
 
-export const Navigation = () => {
+	const links = [
+		{
+			href: '/',
+			icon: HomeIcon,
+			label: 'Home',
+		},
+		{
+			href: `/profile/${me.id}`,
+			icon: PersonIcon,
+			label: 'My profile',
+		},
+	] as const;
+
 	return (
 		<div className="flex h-full">
 			{links.map(({ href, label, icon: Icon }, index) => (
