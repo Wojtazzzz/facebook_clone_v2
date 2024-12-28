@@ -9,6 +9,8 @@ defmodule Api.Accounts.User do
     field :current_password, :string, virtual: true, redact: true
     field :confirmed_at, :utc_datetime
     field :image_url, :string
+    field :first_name, :string
+    field :last_name, :string
 
     has_many :posts, Api.Posts.Post
 
@@ -40,9 +42,10 @@ defmodule Api.Accounts.User do
   """
   def registration_changeset(user, attrs, opts \\ []) do
     user
-    |> cast(attrs, [:email, :password])
+    |> cast(attrs, [:email, :password, :first_name, :last_name])
     |> validate_email(opts)
     |> validate_password(opts)
+    |> validate_required([:first_name, :last_name])
   end
 
   defp validate_email(changeset, opts) do
