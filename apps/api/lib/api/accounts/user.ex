@@ -14,6 +14,11 @@ defmodule Api.Accounts.User do
 
     has_many :posts, Api.Posts.Post
 
+    has_many :friendships, Api.Accounts.Friendship, foreign_key: :user_id
+    has_many :friendships_of_mine, Api.Accounts.Friendship, foreign_key: :friend_id
+    has_many :friends, through: [:friendships, :friend]
+    has_many :friends_of_mine, through: [:friendships_of_mine, :user]
+
     timestamps(type: :utc_datetime)
   end
 
