@@ -5,7 +5,7 @@ import { Options } from './options';
 
 export const Header = () => {
 	return (
-		<div className="sticky top-0 z-50 bg-[#252728] shadow-sm">
+		<div className="sticky top-0 z-50 bg-bg-secondary shadow-sm">
 			<div className="flex h-14 items-center justify-between px-4">
 				<div className="flex flex-1 items-center gap-2">
 					<div className="flex h-16 w-16 items-center justify-center">

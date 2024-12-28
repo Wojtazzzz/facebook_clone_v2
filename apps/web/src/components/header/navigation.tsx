@@ -23,7 +23,7 @@ export const Navigation = () => {
 					key={index}
 					aria-label={label}
 					href={href}
-					className="flex h-11/12 m-1 rounded-lg w-24 text-2xl items-center justify-center text-gray-400 hover:bg-[#333334]"
+					className="flex h-11/12 m-1 rounded-lg w-24 text-2xl items-center justify-center text-gray-400 hover:bg-bg-accent-hover"
 				>
 					<Icon size={26} />
 				</Link>

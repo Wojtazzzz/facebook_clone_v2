@@ -4,33 +4,31 @@ import { redirect } from 'next/navigation';
 import { z } from 'zod';
 
 const schema = z.object({
-	data: z.array(
-		z.object({
-			id: z.number(),
-			content: z.string(),
-		}),
-	),
+	user: z.object({
+		id: z.number(),
+		email: z.string(),
+		first_name: z.string(),
+		last_name: z.string(),
+		image_url: z.string(),
+	}),
 });
 
-export type Post = z.infer<typeof schema>['data'][number];
-
-export const fetchPosts = async () => {
+export const fetchUserProfile = async (userId: number) => {
 	const cookieStore = await cookies();
 	const token = cookieStore.get('token')?.value;
 
 	return await api(token)
-		.get('/users/1/posts')
+		.get(`/users/${userId}`)
 		.unauthorized(() => {
 			redirect('/login');
 		})
 		.json(async (response) => {
-			return [];
 			const { error, data } = await schema.safeParseAsync(response);
 
 			if (error) {
 				throw new Error('Invalid data');
 			}
 
-			return data.data;
+			return data.user;
 		});
 };

@@ -1,27 +1,37 @@
-import { type Post as TPost } from '../utils/fetch_posts';
-
 type PostProps = {
-	post: TPost;
+	post: {
+		id: number;
+		content: string;
+		inserted_at: string;
+		user: {
+			id: number;
+			image_url: string;
+			first_name: string;
+			last_name: string;
+		};
+	};
 };
 
 export const Post = ({ post }: PostProps) => {
 	return (
-		<article className="w-full mx-auto bg-white shadow-sm">
+		<article className="w-full mx-auto bg-bg-secondary rounded-lg shadow-sm">
 			{/* Header */}
 			<header className="p-4 flex items-center justify-between">
 				<div className="flex items-center gap-2">
 					<div className="w-10 h-10 rounded-full overflow-hidden">
 						<img
-							src="/placeholder.svg?height=40&width=40"
-							alt="Profile picture"
+							src={post.user.image_url}
+							alt={post.user.first_name + post.user.last_name}
 							className="w-full h-full object-cover"
 						/>
 					</div>
 					<div>
-						<h3 className="font-semibold text-[15px] text-gray-900">
-							Facebook User
+						<h3 className="font-semibold text-[15px] text-gray-100">
+							{post.user.first_name} {post.user.last_name}
 						</h3>
-						<p className="text-sm text-gray-500">10 hrs</p>
+						<p className="text-sm text-gray-400">
+							{post.inserted_at}
+						</p>
 					</div>
 				</div>
 				<button className="text-gray-500">
@@ -31,7 +41,7 @@ export const Post = ({ post }: PostProps) => {
 
 			{/* Content */}
 			<div className="px-4 pb-3">
-				<p className="text-[15px] text-gray-900">{post.content}</p>
+				<p className="text-[15px] text-gray-100">{post.content}</p>
 			</div>
 
 			{/* Image */}

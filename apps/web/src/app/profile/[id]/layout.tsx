@@ -1,38 +1,51 @@
 import { Button } from '@/components/ui/button';
+import { fetchUserProfile } from '@/modules/profile/utils/fetch_user_profile';
 import Link from 'next/link';
 import { type ReactNode } from 'react';
 
 type ProfileLayoutProps = {
+	params: Promise<{
+		id: string;
+	}>;
 	children: ReactNode;
 };
 
-export default function ProfileLayout({ children }: ProfileLayoutProps) {
+export default async function ProfileLayout({
+	params,
+	children,
+}: ProfileLayoutProps) {
+	const userId = (await params).id;
+
+	const user = await fetchUserProfile(Number(userId));
+
 	const links = [
 		{
 			label: 'Posts',
-			href: '/profile/$id',
+			href: `/profile/${user.id}`,
 		},
 		{
 			label: 'Friends',
-			href: '/profile/$id/friends',
+			href: `/profile/${user.id}/friends`,
 		},
 	] as const;
 
 	return (
 		<>
-			<div className="w-full bg-[#252728] pt-40">
-				<div className="mx-auto max-w-7xl bg-[#252728] text-white">
+			<div className="w-full bg-bg-secondary pt-40">
+				<div className="mx-auto max-w-7xl text-white">
 					<div className="flex justify-between items-end">
-						<div className="h-40 w-40 rounded-full border-4 border-gray-900 overflow-hidden">
+						<div className="h-40 w-40 rounded-full border-4 border-gray-400 bg-gray-400 overflow-hidden">
 							<img
-								src="https://via.placeholder.com/150"
+								src={user.image_url}
 								alt="Profile"
 								className="h-full w-full object-cover"
 							/>
 						</div>
 
 						<div className="ml-8 flex flex-1 flex-col pb-4">
-							<h1 className="text-3xl font-bold">Marcin Witas</h1>
+							<h1 className="text-3xl font-bold">
+								{user.first_name} {user.last_name}
+							</h1>
 							<p className="text-gray-400 text-sm">510 friends</p>
 
 							{/* Friends avatars */}
@@ -60,14 +73,16 @@ export default function ProfileLayout({ children }: ProfileLayoutProps) {
 					<div className="border-t border-gray-700 mt-6">
 						<div className="flex space-x-4 py-3 text-gray-400 font-semibold">
 							{links.map((link, index) => (
-								<Link href={link.href}>{link.label}</Link>
+								<Link key={index} href={link.href}>
+									{link.label}
+								</Link>
 							))}
 						</div>
 					</div>
 				</div>
 			</div>
 
-			<div className="max-w-7xl mx-auto">{children}</div>
+			<div className="max-w-7xl mx-auto mt-8">{children}</div>
 		</>
 	);
 }
