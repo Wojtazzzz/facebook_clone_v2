@@ -6,11 +6,16 @@ defmodule ApiWeb.UserSessionController do
 
   def show(conn, _params) do
     conn
-    |> render(:new, user: conn.assigns.current_user)
+    |> render(:me, user: conn.assigns.current_user)
   end
 
-  def create(conn, %{"user" => user_params}) do
-    %{"email" => email, "password" => password} = user_params
+  def create(conn, params) do
+    %{
+      "user" => %{
+        "email" => email,
+        "password" => password
+      }
+    } = params
 
     if user = Accounts.get_user_by_email_and_password(email, password) do
       token = UserAuth.log_in_user(user)
