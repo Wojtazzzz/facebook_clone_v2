@@ -1,3 +1,5 @@
+import { Avatar } from './ui/avatar';
+
 type PostProps = {
 	post: {
 		id: number;
@@ -18,13 +20,11 @@ export const Post = ({ post }: PostProps) => {
 			{/* Header */}
 			<header className="p-4 flex items-center justify-between">
 				<div className="flex items-center gap-2">
-					<div className="w-10 h-10 rounded-full overflow-hidden">
-						<img
-							src={post.user.image_url}
-							alt={post.user.first_name + post.user.last_name}
-							className="w-full h-full object-cover"
-						/>
-					</div>
+					<Avatar
+						src={post.user.image_url}
+						alt={post.user.first_name + post.user.last_name}
+						size="sm"
+					/>
 					<div>
 						<h3 className="font-semibold text-[15px] text-gray-100">
 							{post.user.first_name} {post.user.last_name}

@@ -1,3 +1,4 @@
+import { Avatar } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { fetchUserProfile } from '@/modules/profile/utils/fetch_user_profile';
 import Link from 'next/link';
@@ -34,13 +35,11 @@ export default async function ProfileLayout({
 			<div className="w-full bg-bg-secondary pt-40">
 				<div className="mx-auto max-w-7xl text-white">
 					<div className="flex justify-between items-end">
-						<div className="h-40 w-40 rounded-full border-4 border-gray-400 bg-gray-400 overflow-hidden">
-							<img
-								src={user.image_url}
-								alt="Profile"
-								className="h-full w-full object-cover"
-							/>
-						</div>
+						<Avatar
+							src={user.image_url}
+							alt={`${user.first_name} ${user.last_name}`}
+							size="md"
+						/>
 
 						<div className="ml-8 flex flex-1 flex-col pb-4">
 							<h1 className="text-3xl font-bold">
@@ -51,16 +50,12 @@ export default async function ProfileLayout({
 							{/* Friends avatars */}
 							<div className="flex -space-x-2 mt-2">
 								{[...Array(6)].map((_, i) => (
-									<div
+									<Avatar
 										key={i}
-										className="h-9 w-9 rounded-full border-2 border-gray-900 bg-gray-300 overflow-hidden"
-									>
-										<img
-											src={`https://via.placeholder.com/32?text=${i + 1}`}
-											alt={`Friend ${i + 1}`}
-											className="h-full w-full object-cover"
-										/>
-									</div>
+										src={`https://via.placeholder.com/32?text=${i + 1}`}
+										alt={`Friend ${i + 1}`}
+										size="sm"
+									/>
 								))}
 							</div>
 						</div>
