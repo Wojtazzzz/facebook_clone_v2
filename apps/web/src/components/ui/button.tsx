@@ -1,16 +1,15 @@
 'use client';
 
-import { type ReactNode } from 'react';
+import { type ReactNode, JSX } from 'react';
 
 type ButtonProps = {
-	type: 'button' | 'submit' | 'reset';
 	children: ReactNode;
-};
+} & JSX.IntrinsicElements['button'];
 
-export const Button = ({ type, children }: ButtonProps) => {
+export const Button = ({ children, ...props }: ButtonProps) => {
 	return (
 		<button
-			type={type}
+			{...props}
 			className="w-full bg-[#0866ff] text-white py-2 px-4 rounded-lg font-semibold hover:bg-blue-700 transition"
 		>
 			{children}
