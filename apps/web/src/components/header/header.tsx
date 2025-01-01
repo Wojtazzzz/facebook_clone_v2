@@ -2,6 +2,7 @@ import Image from 'next/image';
 import { Search } from './search';
 import { Navigation } from './navigation';
 import { Options } from './options';
+import Link from 'next/link';
 
 export const Header = () => {
 	return (
@@ -9,13 +10,15 @@ export const Header = () => {
 			<div className="flex h-14 items-center justify-between px-4">
 				<div className="flex flex-1 items-center gap-2">
 					<div className="flex h-16 w-16 items-center justify-center">
-						<Image
-							src="/logo.png"
-							alt="Facebook"
-							width={64}
-							height={64}
-							className="text-blue-500"
-						/>
+						<Link href="/">
+							<Image
+								src="/logo.png"
+								alt="Facebook"
+								width={64}
+								height={64}
+								className="text-blue-500"
+							/>
+						</Link>
 					</div>
 
 					<Search />
