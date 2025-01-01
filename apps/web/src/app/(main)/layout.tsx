@@ -11,7 +11,8 @@ export default function MainLayout({ children }: MainLayoutProps) {
 			<header className="fixed top-0 left-0 z-30 w-full shadow-md">
 				<Header />
 			</header>
-			{children}
+
+			<div className="pt-14">{children}</div>
 		</div>
 	);
 }

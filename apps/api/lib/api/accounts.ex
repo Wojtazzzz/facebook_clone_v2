@@ -428,4 +428,17 @@ defmodule Api.Accounts do
 
     Repo.one(query)
   end
+
+  def get_user_friends(user_id) when is_integer(user_id) do
+    user =
+      Repo.one(
+        from u in User,
+          where: u.id == ^user_id,
+          left_join: f in assoc(u, :friends),
+          left_join: fom in assoc(u, :friends_of_mine),
+          preload: [friends: f, friends_of_mine: fom]
+      )
+
+    user.friends ++ user.friends_of_mine
+  end
 end

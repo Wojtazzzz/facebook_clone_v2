@@ -7,6 +7,7 @@ defmodule Api.Posts do
   alias Api.Repo
 
   alias Api.Posts.Post
+  alias Api.Accounts
 
   @doc """
   Returns the list of posts.
@@ -113,10 +114,10 @@ defmodule Api.Posts do
 
   ## Examples
 
-      iex> get_post!(123)
+      iex> get_user_posts(123)
       %Post{}
 
-      iex> get_post!(456)
+      iex> get_user_posts(456)
       ** (Ecto.NoResultsError)
 
   """
@@ -124,5 +125,39 @@ defmodule Api.Posts do
     Post
     |> Ecto.Query.where(user_id: ^user_id)
     |> Repo.all()
+  end
+
+  @doc """
+  Gets a list of posts assigned to the specified user and his friends.
+
+  ## Examples
+
+      iex> get_posts_for_user(123)
+      %Post{}
+
+      iex> get_posts_for_user(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_posts_for_user(user_id) when is_integer(user_id) do
+    friends = Accounts.get_user_friends(user_id)
+
+    Repo.all(
+      from p in Post,
+        where: p.user_id in ^[user_id | Enum.map(friends, & &1.id)],
+        join: u in assoc(p, :user),
+        order_by: [desc: p.inserted_at],
+        select: %{
+          id: p.id,
+          content: p.content,
+          inserted_at: p.inserted_at,
+          user: %{
+            id: u.id,
+            first_name: u.first_name,
+            last_name: u.last_name,
+            image_url: u.image_url
+          }
+        }
+    )
   end
 end

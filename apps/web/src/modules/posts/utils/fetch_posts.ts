@@ -8,6 +8,13 @@ const schema = z.object({
 		z.object({
 			id: z.number(),
 			content: z.string(),
+			inserted_at: z.string(),
+			user: z.object({
+				id: z.number(),
+				first_name: z.string(),
+				last_name: z.string(),
+				image_url: z.string(),
+			}),
 		}),
 	),
 });
@@ -19,12 +26,11 @@ export const fetchPosts = async () => {
 	const token = cookieStore.get('token')?.value;
 
 	return await api(token)
-		.get('/users/1/posts')
+		.get('/posts')
 		.unauthorized(() => {
 			redirect('/login');
 		})
 		.json(async (response) => {
-			return [];
 			const { error, data } = await schema.safeParseAsync(response);
 
 			if (error) {
