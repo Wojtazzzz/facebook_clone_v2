@@ -4,7 +4,7 @@ import { redirect } from 'next/navigation';
 import { z } from 'zod';
 
 const schema = z.object({
-	user: z.object({
+	data: z.object({
 		id: z.number(),
 		email: z.string(),
 		first_name: z.string(),
@@ -29,6 +29,6 @@ export const fetchUserProfile = async (userId: number) => {
 				throw new Error('Invalid data');
 			}
 
-			return data.user;
+			return data.data;
 		});
 };
