@@ -14,10 +14,15 @@ defmodule Api.Accounts.User do
 
     has_many :posts, Api.Posts.Post
 
-    has_many :friendships, Api.Accounts.Friendship, foreign_key: :user_id
-    has_many :friendships_of_mine, Api.Accounts.Friendship, foreign_key: :friend_id
-    has_many :friends, through: [:friendships, :friend]
-    has_many :friends_of_mine, through: [:friendships_of_mine, :user]
+    many_to_many :friends,
+                 Api.Accounts.User,
+                 join_through: Api.Accounts.Friendship,
+                 join_keys: [user_id: :id, friend_id: :id]
+
+    many_to_many :friends_of_mine,
+                 Api.Accounts.User,
+                 join_through: Api.Accounts.Friendship,
+                 join_keys: [friend_id: :id, user_id: :id]
 
     timestamps(type: :utc_datetime)
   end
