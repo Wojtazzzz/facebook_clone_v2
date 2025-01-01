@@ -4,7 +4,7 @@ defmodule ApiWeb.UserController do
   alias Api.Accounts
 
   def show(conn, _params) do
-    user = Accounts.get_user_profile_by_id(conn.assigns.current_user.id)
-    render(conn, :show, user: user)
+    data = Accounts.get_user_profile_by_id(conn.assigns.current_user.id)
+    render(conn, :show, data: data)
   end
 end

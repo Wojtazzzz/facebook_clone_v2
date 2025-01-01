@@ -6,10 +6,18 @@ import { z } from 'zod';
 const schema = z.object({
 	data: z.object({
 		id: z.number(),
-		email: z.string(),
 		first_name: z.string(),
 		last_name: z.string(),
 		image_url: z.string(),
+		friends_count: z.number(),
+		friends: z.array(
+			z.object({
+				id: z.number(),
+				first_name: z.string(),
+				last_name: z.string(),
+				image_url: z.string(),
+			}),
+		),
 	}),
 });
 

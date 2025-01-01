@@ -396,9 +396,25 @@ defmodule Api.Accounts do
 
   """
   def get_user_profile_by_id(user_id) when is_integer(user_id) do
+    friends_limit = 9
+
     query =
       from u in User,
-        where: u.id == ^user_id
+        where: u.id == ^user_id,
+        left_join: f in assoc(u, :friends),
+        limit: ^friends_limit,
+        left_join: fom in assoc(u, :friends_of_mine),
+        limit: ^friends_limit,
+        # Due to group_by it's needed to fetch relations twice - https://stackoverflow.com/q/19601948
+        left_join: f_count in assoc(u, :friends),
+        left_join: fom_count in assoc(u, :friends_of_mine),
+        preload: [friends: f, friends_of_mine: fom],
+        group_by: [u.id, f.id, fom.id],
+        select: %{
+          user: u,
+          friends_count: count(f_count.id),
+          friends_of_mine_count: count(fom_count.id)
+        }
 
     Repo.one(query)
   end
@@ -412,10 +428,4 @@ defmodule Api.Accounts do
 
     Repo.one(query)
   end
-
-  # def get_user_friends(user_id) when is_integer(user_id) do
-  #   User
-  #   |> Repo.get(user_id)
-  #   |> Repo.preload([:friends, :friends_of_mine])
-  # end
 end

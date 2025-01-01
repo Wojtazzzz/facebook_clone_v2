@@ -45,15 +45,20 @@ export default async function ProfileLayout({
 							<h1 className="text-3xl font-bold">
 								{user.first_name} {user.last_name}
 							</h1>
-							<p className="text-gray-400 text-sm">510 friends</p>
+							<p className="text-gray-400 text-sm">
+								{user.friends_count}{' '}
+								{user.friends_count === 1
+									? 'friend'
+									: 'friends'}
+							</p>
 
 							{/* Friends avatars */}
 							<div className="flex -space-x-2 mt-2">
-								{[...Array(6)].map((_, i) => (
+								{user.friends.map((friend) => (
 									<Avatar
-										key={i}
-										src={`https://via.placeholder.com/32?text=${i + 1}`}
-										alt={`Friend ${i + 1}`}
+										key={friend.id}
+										src={friend.image_url}
+										alt={`${friend.first_name} ${friend.last_name}`}
 										size="sm"
 									/>
 								))}
