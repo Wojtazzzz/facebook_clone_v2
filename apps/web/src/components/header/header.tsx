@@ -15,7 +15,7 @@ export const Header = () => {
 								src="/logo.png"
 								alt="Facebook"
 								width={64}
-								height={64}
+								height={40}
 								className="text-blue-500"
 							/>
 						</Link>
