@@ -1,4 +1,5 @@
 import { Avatar } from './ui/avatar';
+import moment from 'moment';
 
 type PostProps = {
 	post: {
@@ -30,7 +31,7 @@ export const Post = ({ post }: PostProps) => {
 							{post.user.first_name} {post.user.last_name}
 						</h3>
 						<p className="text-sm text-gray-400">
-							{post.inserted_at}
+							{moment(post.inserted_at).fromNow()}
 						</p>
 					</div>
 				</div>
