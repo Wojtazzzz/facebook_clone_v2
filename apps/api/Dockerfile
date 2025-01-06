@@ -1,6 +1,6 @@
 FROM elixir:1.17.3-alpine
 
-RUN apk add --no-cache build-base inotify-tools postgresql-client git
+RUN apk add --no-cache build-base inotify-tools postgresql-client git make
 
 WORKDIR /app
 COPY mix.exs mix.lock ./
