@@ -4,11 +4,11 @@ const nextConfig: NextConfig = {
 	images: {
 		remotePatterns: [
 			{
-				hostname: 'icons.iconarchive.com',
-			},
-			{
 				hostname: 'via.placeholder.com',
 			},
+			{
+				hostname: 'gravatar.com'
+			}
 		],
 	},
 };
