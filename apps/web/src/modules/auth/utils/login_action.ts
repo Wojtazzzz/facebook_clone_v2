@@ -11,9 +11,6 @@ type LoginPayload = {
 
 const responseSchema = z.object({
 	token: z.string(),
-	user: z.object({
-		email: z.string(),
-	}),
 });
 
 export async function loginAction(payload: LoginPayload) {
@@ -34,10 +31,12 @@ export async function loginAction(payload: LoginPayload) {
 			return data;
 		})
 		.catch((error) => {
+			console.log(error)
 			if (error.status === 401) {
 				throw new Error(JSON.parse(error.message).error);
 			}
 
+			
 			throw new Error(error);
 		});
 
