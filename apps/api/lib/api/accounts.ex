@@ -399,7 +399,7 @@ defmodule Api.Accounts do
     friends_limit = 9
 
     query =
-      from u in User,
+      from(u in User,
         where: u.id == ^user_id,
         left_join: f in assoc(u, :friends),
         limit: ^friends_limit,
@@ -415,16 +415,18 @@ defmodule Api.Accounts do
           friends_count: count(f_count.id),
           friends_of_mine_count: count(fom_count.id)
         }
+      )
 
     Repo.one(query)
   end
 
   def get_user_with_posts(user_id) when is_integer(user_id) do
     query =
-      from u in User,
+      from(u in User,
         where: u.id == ^user_id,
-        join: p in assoc(u, :posts),
+        left_join: p in assoc(u, :posts),
         preload: [posts: p]
+      )
 
     Repo.one(query)
   end
@@ -432,11 +434,12 @@ defmodule Api.Accounts do
   def get_user_friends(user_id) when is_integer(user_id) do
     user =
       Repo.one(
-        from u in User,
+        from(u in User,
           where: u.id == ^user_id,
           left_join: f in assoc(u, :friends),
           left_join: fom in assoc(u, :friends_of_mine),
           preload: [friends: f, friends_of_mine: fom]
+        )
       )
 
     user.friends ++ user.friends_of_mine
