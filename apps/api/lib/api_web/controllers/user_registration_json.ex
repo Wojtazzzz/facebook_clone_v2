@@ -5,13 +5,4 @@ defmodule ApiWeb.UserRegistrationJSON do
   def new(%{user: %Api.Accounts.User{} = user}) do
     %{user: %{email: user.email}}
   end
-
-  @doc """
-  Renders error messages after an invalid registration.
-  """
-  def error(%{changeset: %Ecto.Changeset{} = changeset}) do
-    %{errors: Enum.map(changeset.errors, fn {field, {message, _}} ->
-      %{field => message}
-    end)}
-  end
 end

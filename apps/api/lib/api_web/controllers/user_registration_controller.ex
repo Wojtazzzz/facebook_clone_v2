@@ -4,17 +4,17 @@ defmodule ApiWeb.UserRegistrationController do
   alias Api.Accounts
   alias ApiWeb.UserAuth
 
-  def create(conn, %{"user" => user_params}) do
-    case Accounts.register_user(user_params) do
-      {:ok, user} ->
-        conn
-        |> UserAuth.log_in_user(user)
-        |> render(:new, user: user)
+  action_fallback ApiWeb.FallbackController
 
-      {:error, %Ecto.Changeset{} = changeset} ->
-        conn
-        |> put_status(422)
-        |> render(:error, changeset: changeset)
+  def create(conn, %{"user" => user_params}) do
+    Accounts.register_user(user_params)
+    |> case do
+      {:ok, user} ->
+        UserAuth.log_in_user(user)
+        render(conn, :new, user: user)
+
+      {:error, changeset} ->
+        {:error, changeset}
     end
   end
 end
