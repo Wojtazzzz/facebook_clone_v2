@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import Image from 'next/image';
 
 type AvatarProps = {
-	src: string;
+	src: string | null;
 	alt: string;
 	size: 'sm' | 'md';
 };
@@ -19,7 +19,7 @@ export const Avatar = ({ src, alt, size }: AvatarProps) => {
 			)}
 		>
 			<Image
-				src={src}
+				src={src ?? '/empty-profile-picture.webp'}
 				alt={alt}
 				fill
 				className="h-full w-full object-cover"

@@ -6,7 +6,7 @@ import { z } from 'zod';
 const schema = z.object({
 	data: z.object({
 		id: z.number(),
-		image_url: z.string(),
+		image_url: z.string().nullable(),
 		first_name: z.string(),
 		last_name: z.string(),
 		posts: z.array(

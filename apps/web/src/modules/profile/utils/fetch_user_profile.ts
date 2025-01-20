@@ -8,14 +8,14 @@ const schema = z.object({
 		id: z.number(),
 		first_name: z.string(),
 		last_name: z.string(),
-		image_url: z.string(),
+		image_url: z.string().nullable(),
 		friends_count: z.number(),
 		friends: z.array(
 			z.object({
 				id: z.number(),
 				first_name: z.string(),
 				last_name: z.string(),
-				image_url: z.string(),
+				image_url: z.string().nullable(),
 			}),
 		),
 	}),
