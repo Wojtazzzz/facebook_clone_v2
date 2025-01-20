@@ -7,4 +7,15 @@ defmodule ApiWeb.FallbackController do
     |> put_view(json: ApiWeb.ErrorJSON)
     |> render(:error, changeset: changeset)
   end
+
+  def call(conn, {:error, cause, status}) do
+    conn
+    |> put_status(status)
+    |> put_view(json: ApiWeb.ErrorJSON)
+    |> render(:error, cause: cause)
+  end
+
+  def call(conn, {:error, cause}) do
+    call(conn, {:error, cause, :bad_request})
+  end
 end

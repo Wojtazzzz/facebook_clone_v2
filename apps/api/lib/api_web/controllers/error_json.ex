@@ -7,4 +7,10 @@ defmodule ApiWeb.ErrorJSON do
         end)
     }
   end
+
+  def error(%{cause: cause}) when is_binary(cause) do
+    %{
+      error: cause
+    }
+  end
 end
