@@ -1,3 +1,4 @@
+import { CommentIcon } from './icons/comment_icon';
 import { LikeIcon } from './icons/like_icon';
 import { Avatar } from './ui/avatar';
 import moment from 'moment';
@@ -72,7 +73,7 @@ export const Post = ({ post }: PostProps) => {
 					<span>Like</span>
 				</button>
 				<button className="flex-1 flex items-center justify-center gap-x-2 py-1.5 text-gray-400 rounded-md hover:bg-bg-accent">
-					<LikeIcon size={18} />
+					<CommentIcon size={18} />
 					<span>Like</span>
 				</button>
 				<button className="flex-1 flex items-center justify-center gap-x-2 py-1.5 text-gray-400 rounded-md hover:bg-bg-accent">
