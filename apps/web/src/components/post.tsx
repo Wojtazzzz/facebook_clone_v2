@@ -8,7 +8,7 @@ type PostProps = {
 		inserted_at: string;
 		user: {
 			id: number;
-			image_url: string;
+			image_url: string | null;
 			first_name: string;
 			last_name: string;
 		};
