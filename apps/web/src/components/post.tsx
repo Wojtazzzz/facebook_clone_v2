@@ -1,5 +1,6 @@
 import { CommentIcon } from './icons/comment_icon';
 import { LikeIcon } from './icons/like_icon';
+import { ShareIcon } from './icons/share_icon';
 import { Avatar } from './ui/avatar';
 import moment from 'moment';
 
@@ -74,11 +75,11 @@ export const Post = ({ post }: PostProps) => {
 				</button>
 				<button className="flex-1 flex items-center justify-center gap-x-2 py-1.5 text-gray-400 rounded-md hover:bg-bg-accent">
 					<CommentIcon size={18} />
-					<span>Like</span>
+					<span>Comment</span>
 				</button>
 				<button className="flex-1 flex items-center justify-center gap-x-2 py-1.5 text-gray-400 rounded-md hover:bg-bg-accent">
-					<LikeIcon size={18} />
-					<span>Like</span>
+					<ShareIcon size={18} />
+					<span>Share</span>
 				</button>
 			</div>
 		</article>
