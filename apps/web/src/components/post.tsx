@@ -1,3 +1,4 @@
+import { LikeIcon } from './icons/like_icon';
 import { Avatar } from './ui/avatar';
 import moment from 'moment';
 
@@ -65,17 +66,18 @@ export const Post = ({ post }: PostProps) => {
 			</div>
 
 			{/* Actions */}
-			<div className="px-2 py-1 flex items-center justify-between">
-				<button className="flex-1 text-gray-600">
-					<span className="mr-2">👍</span> Like
+			<div className="px-2 py-2 flex items-center justify-between">
+				<button className="flex-1 flex items-center justify-center gap-x-2 py-1.5 text-gray-400 rounded-md hover:bg-bg-accent">
+					<LikeIcon size={18} />
+					<span>Like</span>
 				</button>
-				<button className="flex-1 text-gray-600">
-					<span className="mr-2">👍</span> Like
-					{/* <MessageSquare className="w-4 h-4 mr-2" /> Comment */}
+				<button className="flex-1 flex items-center justify-center gap-x-2 py-1.5 text-gray-400 rounded-md hover:bg-bg-accent">
+					<LikeIcon size={18} />
+					<span>Like</span>
 				</button>
-				<button className="flex-1 text-gray-600">
-					<span className="mr-2">👍</span> Like
-					{/* <Share2 className="w-4 h-4 mr-2" /> Share */}
+				<button className="flex-1 flex items-center justify-center gap-x-2 py-1.5 text-gray-400 rounded-md hover:bg-bg-accent">
+					<LikeIcon size={18} />
+					<span>Like</span>
 				</button>
 			</div>
 		</article>
