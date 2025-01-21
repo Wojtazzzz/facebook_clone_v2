@@ -38,6 +38,8 @@ defmodule ApiWeb.Router do
     get "/users/:user_id/posts", UserPostController, :index, constraints: %{id: ~r/^\d+$/}
 
     get "/posts", PostController, :index
+
+    post "/post_likes/:post_id", PostLikeController, :create
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development

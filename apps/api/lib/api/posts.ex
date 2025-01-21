@@ -4,6 +4,7 @@ defmodule Api.Posts do
   """
 
   import Ecto.Query, warn: false
+  alias Api.Posts.PostLike
   alias Api.Repo
 
   alias Api.Posts.Post
@@ -159,5 +160,19 @@ defmodule Api.Posts do
           }
         }
     )
+  end
+
+  def create_post_like(attrs) do
+    from(p in Post, where: p.id == ^attrs.post_id)
+    |> Repo.one()
+    |> case do
+      nil ->
+        {:error, "Post does not exist."}
+
+      _ ->
+        %PostLike{}
+        |> PostLike.changeset(attrs)
+        |> Repo.insert()
+    end
   end
 end
