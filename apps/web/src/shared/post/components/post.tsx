@@ -1,7 +1,7 @@
-import { CommentIcon } from './icons/comment_icon';
-import { LikeIcon } from './icons/like_icon';
-import { ShareIcon } from './icons/share_icon';
-import { Avatar } from './ui/avatar';
+import { CommentIcon } from '@/components/icons/comment_icon';
+import { LikeIcon } from '@/components/icons/like_icon';
+import { ShareIcon } from '@/components/icons/share_icon';
+import { Avatar } from '@/components/ui/avatar';
 import moment from 'moment';
 
 type PostProps = {

@@ -1,5 +1,5 @@
+import { Post } from '@/shared/post/components/post';
 import { type UserWithPosts } from '../utils/fetch_user_posts';
-import { Post } from '../../../components/post';
 
 type PostsListProps = {
 	user: UserWithPosts;

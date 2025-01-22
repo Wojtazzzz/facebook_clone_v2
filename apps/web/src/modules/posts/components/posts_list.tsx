@@ -1,5 +1,5 @@
+import { Post } from '@/shared/post/components/post';
 import { type Post as TPost } from '../utils/fetch_posts';
-import { Post } from '../../../components/post';
 
 type PostsListProps = {
 	posts: TPost[];
