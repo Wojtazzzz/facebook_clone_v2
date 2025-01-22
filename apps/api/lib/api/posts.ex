@@ -175,4 +175,16 @@ defmodule Api.Posts do
         |> Repo.insert()
     end
   end
+
+  def delete_post_like(%{post_id: post_id, user_id: user_id}) do
+    from(pl in PostLike, where: pl.post_id == ^post_id and pl.user_id == ^user_id)
+    |> Repo.one()
+    |> case do
+      post_like when is_struct(post_like) ->
+        Repo.delete(post_like)
+
+      nil ->
+        {:error, "The user did not like that post."}
+    end
+  end
 end
