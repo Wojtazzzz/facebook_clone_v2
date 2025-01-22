@@ -26,7 +26,7 @@ export const Post = ({ post }: PostProps) => {
 				<div className="flex items-center gap-2">
 					<Avatar
 						src={post.user.image_url}
-						alt={post.user.first_name + post.user.last_name}
+						alt={`${post.user.first_name} ${post.user.last_name}`}
 						size="sm"
 					/>
 					<div>
