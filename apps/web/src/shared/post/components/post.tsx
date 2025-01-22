@@ -3,6 +3,7 @@ import { LikeIcon } from '@/components/icons/like_icon';
 import { ShareIcon } from '@/components/icons/share_icon';
 import { Avatar } from '@/components/ui/avatar';
 import moment from 'moment';
+import { LikeButton } from './like_button';
 
 type PostProps = {
 	post: {
@@ -69,10 +70,8 @@ export const Post = ({ post }: PostProps) => {
 
 			{/* Actions */}
 			<div className="px-2 py-2 flex items-center justify-between">
-				<button className="flex-1 flex items-center justify-center gap-x-2 py-1.5 text-gray-400 rounded-md hover:bg-bg-accent">
-					<LikeIcon size={18} />
-					<span>Like</span>
-				</button>
+				<LikeButton postId={post.id} isLiked={true} />
+
 				<button className="flex-1 flex items-center justify-center gap-x-2 py-1.5 text-gray-400 rounded-md hover:bg-bg-accent">
 					<CommentIcon size={18} />
 					<span>Comment</span>
