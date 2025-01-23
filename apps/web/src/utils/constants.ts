@@ -1,0 +1,1 @@
+export const HOME_PAGE_POSTS_PER_PAGE = 1;

@@ -21,12 +21,12 @@ const schema = z.object({
 
 export type Post = z.infer<typeof schema>['data'][number];
 
-export const fetchPosts = async () => {
+export const fetchPosts = async (offset: number, limit: number) => {
 	const cookieStore = await cookies();
 	const token = cookieStore.get('token')?.value;
 
 	return await api(token)
-		.get('/posts')
+		.get(`/posts?offset=${offset}&limit=${limit}`)
 		.unauthorized(() => {
 			redirect('/login');
 		})
