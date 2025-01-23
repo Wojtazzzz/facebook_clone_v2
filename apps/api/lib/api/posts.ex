@@ -149,11 +149,14 @@ defmodule Api.Posts do
         where: p.user_id in ^[user_id | Enum.map(friends, & &1.id)],
         join: u in assoc(p, :user),
         order_by: [desc: p.inserted_at],
+        left_join: pl in "post_likes",
+        on: pl.post_id == p.id and pl.user_id == ^user_id,
         limit: ^limit,
         offset: ^offset,
         select: %{
           id: p.id,
           content: p.content,
+          isLiked: not is_nil(pl.id),
           inserted_at: p.inserted_at,
           user: %{
             id: u.id,

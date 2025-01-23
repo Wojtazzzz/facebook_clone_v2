@@ -5,11 +5,16 @@ import { cookies } from 'next/headers';
 
 type LikeActionParams = {
     postId: number;
+    like: boolean;
 }
 
-export async function likeAction({ postId }: LikeActionParams) {
+export async function likeAction({ postId, like }: LikeActionParams) {
     const cookieStore = await cookies();
     const token = cookieStore.get('token')?.value;
 
-    await api(token).post({}, `/post_likes/${postId}`).res();
+    if (like) {
+         await api(token).post({}, `/post_likes/${postId}`).res();
+    } else {
+        await api(token).delete(`/post_likes/${postId}`).res();
+    }
 }

@@ -9,6 +9,7 @@ type PostProps = {
 	post: {
 		id: number;
 		content: string;
+		isLiked: boolean;
 		inserted_at: string;
 		user: {
 			id: number;
@@ -70,7 +71,7 @@ export const Post = ({ post }: PostProps) => {
 
 			{/* Actions */}
 			<div className="px-2 py-2 flex items-center justify-between">
-				<LikeButton postId={post.id} isLiked={true} />
+				<LikeButton postId={post.id} isLiked={post.isLiked} />
 
 				<button className="flex-1 flex items-center justify-center gap-x-2 py-1.5 text-gray-400 rounded-md hover:bg-bg-accent">
 					<CommentIcon size={18} />
