@@ -37,9 +37,7 @@ export const Post = ({ post }: PostProps) => {
 					<div>
 						<Link href={`/profile/${post.user.id}`}>
 							<h3 className="font-semibold text-[15px] text-gray-100">
-								{post.user.first_name +
-									' ' +
-									post.user.last_name}
+								{`${post.user.first_name} ${post.user.last_name}`}
 							</h3>
 						</Link>
 						<p className="text-sm text-gray-400">
