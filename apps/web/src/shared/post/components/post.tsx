@@ -4,6 +4,7 @@ import { ShareIcon } from '@/components/icons/share_icon';
 import { Avatar } from '@/components/ui/avatar';
 import moment from 'moment';
 import { LikeButton } from './like_button';
+import Link from 'next/link';
 
 type PostProps = {
 	post: {
@@ -26,15 +27,21 @@ export const Post = ({ post }: PostProps) => {
 			{/* Header */}
 			<header className="p-4 flex items-center justify-between">
 				<div className="flex items-center gap-2">
-					<Avatar
-						src={post.user.image_url}
-						alt={`${post.user.first_name} ${post.user.last_name}`}
-						size="sm"
-					/>
+					<Link href={`/profile/${post.user.id}`}>
+						<Avatar
+							src={post.user.image_url}
+							alt={`${post.user.first_name} ${post.user.last_name}`}
+							size="sm"
+						/>
+					</Link>
 					<div>
-						<h3 className="font-semibold text-[15px] text-gray-100">
-							{post.user.first_name} {post.user.last_name}
-						</h3>
+						<Link href={`/profile/${post.user.id}`}>
+							<h3 className="font-semibold text-[15px] text-gray-100">
+								{post.user.first_name +
+									' ' +
+									post.user.last_name}
+							</h3>
+						</Link>
 						<p className="text-sm text-gray-400">
 							{moment(post.inserted_at).fromNow()}
 						</p>
