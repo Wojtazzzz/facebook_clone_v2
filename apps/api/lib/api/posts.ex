@@ -140,7 +140,8 @@ defmodule Api.Posts do
       ** (Ecto.NoResultsError)
 
   """
-  def get_posts_for_user(user_id) when is_integer(user_id) do
+  def get_posts_for_user(user_id, offset, limit)
+      when is_integer(user_id) and is_integer(offset) and is_integer(limit) do
     friends = Accounts.get_user_friends(user_id)
 
     Repo.all(
@@ -148,6 +149,8 @@ defmodule Api.Posts do
         where: p.user_id in ^[user_id | Enum.map(friends, & &1.id)],
         join: u in assoc(p, :user),
         order_by: [desc: p.inserted_at],
+        limit: ^limit,
+        offset: ^offset,
         select: %{
           id: p.id,
           content: p.content,
