@@ -1,5 +1,4 @@
 defmodule ApiWeb.UserPostJSON do
-  alias Api.Posts.Post
   alias Api.Accounts.User
 
   @doc """
@@ -17,11 +16,12 @@ defmodule ApiWeb.UserPostJSON do
     }
   end
 
-  defp data(%Post{} = post) do
+  defp data(post) do
     %{
       id: post.id,
       content: post.content,
-      inserted_at: post.inserted_at
+      inserted_at: post.inserted_at,
+      is_liked: post.is_liked
     }
   end
 end

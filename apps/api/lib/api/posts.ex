@@ -156,7 +156,7 @@ defmodule Api.Posts do
         select: %{
           id: p.id,
           content: p.content,
-          isLiked: not is_nil(pl.id),
+          is_liked: not is_nil(pl.id),
           inserted_at: p.inserted_at,
           user: %{
             id: u.id,

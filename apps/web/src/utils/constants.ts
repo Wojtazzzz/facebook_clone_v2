@@ -1,1 +1,2 @@
 export const HOME_PAGE_POSTS_PER_PAGE = 1;
+export const PROFILE_PAGE_POSTS_PER_PAGE = 1;

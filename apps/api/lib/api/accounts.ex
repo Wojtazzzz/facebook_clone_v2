@@ -4,10 +4,10 @@ defmodule Api.Accounts do
   """
 
   import Ecto.Query, warn: false
+
   alias Api.Repo
-
   alias Api.Accounts.{User, UserToken, UserNotifier}
-
+  alias Api.Posts.Post
   ## Database getters
 
   @doc """
@@ -420,12 +420,27 @@ defmodule Api.Accounts do
     Repo.one(query)
   end
 
-  def get_user_with_posts(user_id) when is_integer(user_id) do
+  def get_user_with_posts(user_id, offset, limit)
+      when is_integer(user_id) and is_integer(offset) and is_integer(limit) do
     query =
       from(u in User,
         where: u.id == ^user_id,
-        left_join: p in assoc(u, :posts),
-        preload: [posts: p]
+        preload: [
+          posts:
+            ^from(
+              p in Post,
+              left_join: pl in "post_likes",
+              on: pl.post_id == p.id and pl.user_id == ^user_id,
+              limit: ^limit,
+              offset: ^offset,
+              select: %{
+                id: p.id,
+                content: p.content,
+                is_liked: not is_nil(pl.id),
+                inserted_at: p.inserted_at
+              }
+            )
+        ]
       )
 
     Repo.one(query)

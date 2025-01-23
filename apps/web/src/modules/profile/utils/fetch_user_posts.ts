@@ -14,6 +14,7 @@ const schema = z.object({
 				id: z.number(),
 				inserted_at: z.string(),
 				content: z.string(),
+				is_liked: z.boolean(),
 			}),
 		),
 	}),
@@ -21,12 +22,18 @@ const schema = z.object({
 
 export type UserWithPosts = z.infer<typeof schema>['data'];
 
-export const fetchUserPosts = async (userId: number) => {
+type FetchUserPostsParams = {
+	userId: number;
+	limit: number;
+	offset: number
+}
+
+export const fetchUserPosts = async ({userId, limit, offset}: FetchUserPostsParams) => {
 	const cookieStore = await cookies();
 	const token = cookieStore.get('token')?.value;
 
 	return await api(token)
-		.get(`/users/${userId}/posts`)
+		.get(`/users/${userId}/posts?limit=${limit}&offset=${offset}`)
 		.unauthorized(() => {
 			redirect('/login');
 		})

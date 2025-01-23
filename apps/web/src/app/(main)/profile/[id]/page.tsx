@@ -1,5 +1,6 @@
 import { UserPostsList } from '@/modules/profile/components/user_posts_list';
 import { fetchUserPosts } from '@/modules/profile/utils/fetch_user_posts';
+import { PROFILE_PAGE_POSTS_PER_PAGE } from '@/utils/constants';
 
 type ProfilePostsPageProps = {
 	params: Promise<{
@@ -10,8 +11,11 @@ type ProfilePostsPageProps = {
 export default async function ProfilePostsPage({
 	params,
 }: ProfilePostsPageProps) {
-	const userId = (await params).id;
-	const user = await fetchUserPosts(Number(userId));
+	const user = await fetchUserPosts({
+		userId: Number((await params).id),
+		offset: 0,
+		limit: PROFILE_PAGE_POSTS_PER_PAGE,
+	});
 
 	return (
 		<div className="space-y-6">
