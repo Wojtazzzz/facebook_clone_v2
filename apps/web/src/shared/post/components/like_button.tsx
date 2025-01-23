@@ -18,7 +18,7 @@ export const LikeButton = ({ postId, isLiked }: LikeButtonProps) => {
 
 	return (
 		<button
-			className="flex-1 flex items-center justify-center gap-x-2 py-1.5 text-gray-400 rounded-md hover:bg-bg-accent"
+			className="flex-1 flex items-center justify-center space-x-2 py-1.5 text-gray-400 rounded-md hover:bg-bg-accent"
 			onClick={handleClick}
 		>
 			<span
