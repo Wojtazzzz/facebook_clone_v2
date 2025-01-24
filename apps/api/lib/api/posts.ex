@@ -149,14 +149,17 @@ defmodule Api.Posts do
         where: p.user_id in ^[user_id | Enum.map(friends, & &1.id)],
         join: u in assoc(p, :user),
         order_by: [desc: p.inserted_at],
-        left_join: pl in "post_likes",
-        on: pl.post_id == p.id and pl.user_id == ^user_id,
+        left_join: plu in "post_likes",
+        on: plu.post_id == p.id and plu.user_id == ^user_id,
+        left_join: pl in assoc(p, :post_likes),
         limit: ^limit,
         offset: ^offset,
+        group_by: [p.id, plu.id, u.id],
         select: %{
           id: p.id,
           content: p.content,
-          is_liked: not is_nil(pl.id),
+          is_liked: not is_nil(plu.id),
+          likes: count(pl.id),
           inserted_at: p.inserted_at,
           user: %{
             id: u.id,
@@ -192,5 +195,46 @@ defmodule Api.Posts do
       nil ->
         {:error, "The user did not like that post."}
     end
+  end
+
+  @doc """
+  Gets a single post by id.
+
+  Raises `Ecto.NoResultsError` if the Post does not exist.
+
+  Examples
+
+      iex> get_post!(123)
+      %Post{}
+
+      iex> get_post!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+
+  def get_post_data_by_id!(post_id, user_id) when is_integer(post_id) and is_integer(user_id) do
+    Repo.one(
+      from p in Post,
+        where: p.id == ^post_id,
+        join: u in assoc(p, :user),
+        order_by: [desc: p.inserted_at],
+        left_join: plu in "post_likes",
+        on: plu.post_id == p.id and plu.user_id == ^user_id,
+        left_join: pl in assoc(p, :post_likes),
+        group_by: [p.id, plu.id, u.id],
+        select: %{
+          id: p.id,
+          content: p.content,
+          is_liked: not is_nil(plu.id),
+          likes: count(pl.id),
+          inserted_at: p.inserted_at,
+          user: %{
+            id: u.id,
+            first_name: u.first_name,
+            last_name: u.last_name,
+            image_url: u.image_url
+          }
+        }
+    )
   end
 end

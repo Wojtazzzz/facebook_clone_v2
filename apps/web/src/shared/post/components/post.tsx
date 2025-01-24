@@ -1,16 +1,20 @@
+'use client';
+
 import { CommentIcon } from '@/components/icons/comment_icon';
 import { LikeIcon } from '@/components/icons/like_icon';
 import { ShareIcon } from '@/components/icons/share_icon';
 import { Avatar } from '@/components/ui/avatar';
 import moment from 'moment';
-import { LikeButton } from './like_button';
 import Link from 'next/link';
+import clsx from 'clsx';
+import { useLikes } from '../hooks/use_likes';
 
 type PostProps = {
 	post: {
 		id: number;
 		content: string;
 		is_liked: boolean;
+		likes: number;
 		inserted_at: string;
 		user: {
 			id: number;
@@ -22,6 +26,12 @@ type PostProps = {
 };
 
 export const Post = ({ post }: PostProps) => {
+	const { like, isLiked, likes } = useLikes({
+		postId: post.id,
+		isInitiallyLiked: post.is_liked,
+		initialLikes: post.likes,
+	});
+
 	return (
 		<article className="w-full mx-auto bg-bg-secondary rounded-lg shadow-sm">
 			{/* Header */}
@@ -71,12 +81,24 @@ export const Post = ({ post }: PostProps) => {
 				<span className="flex items-center w-4 h-4 text-[#0866ff]">
 					<LikeIcon size={20} />
 				</span>
-				<span className="text-sm text-gray-400">12</span>
+				<span className="text-sm text-gray-400">{likes}</span>
 			</div>
 
 			{/* Actions */}
 			<div className="px-2 py-2 flex items-center justify-between">
-				<LikeButton postId={post.id} isLiked={post.is_liked} />
+				<button
+					className="flex-1 flex items-center justify-center space-x-2 py-1.5 text-gray-400 rounded-md hover:bg-bg-accent"
+					onClick={like}
+				>
+					<span
+						className={clsx({
+							'text-[#0866ff]': isLiked,
+						})}
+					>
+						<LikeIcon size={18} />
+					</span>
+					<span>Like</span>
+				</button>
 
 				<button className="flex-1 flex items-center justify-center gap-x-2 py-1.5 text-gray-400 rounded-md hover:bg-bg-accent">
 					<CommentIcon size={18} />

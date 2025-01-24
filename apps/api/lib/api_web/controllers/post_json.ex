@@ -13,6 +13,7 @@ defmodule ApiWeb.PostJSON do
       id: post.id,
       content: post.content,
       is_liked: post.is_liked,
+      likes: post.likes,
       inserted_at: post.inserted_at,
       user: %{
         id: post.user.id,

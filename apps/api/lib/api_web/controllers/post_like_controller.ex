@@ -12,9 +12,9 @@ defmodule ApiWeb.PostLikeController do
              user_id: conn.assigns.current_user.id,
              post_id: post_id
            }) do
-      conn
-      |> put_status(:no_content)
-      |> json(%{})
+      post = Posts.get_post_data_by_id!(post_id, conn.assigns.current_user.id)
+
+      json(conn, post)
     else
       {:error, changeset} when is_map(changeset) -> {:error, changeset}
       {:error, message} when is_binary(message) -> {:error, message}
@@ -29,9 +29,9 @@ defmodule ApiWeb.PostLikeController do
              user_id: conn.assigns.current_user.id,
              post_id: post_id
            }) do
-      conn
-      |> put_status(:no_content)
-      |> json(%{})
+      post = Posts.get_post_data_by_id!(post_id, conn.assigns.current_user.id)
+
+      json(conn, post)
     else
       {:error, changeset} when is_map(changeset) -> {:error, changeset}
       {:error, message} when is_binary(message) -> {:error, message}

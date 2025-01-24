@@ -6,6 +6,7 @@ defmodule Api.Posts.Post do
     field :content, :string
 
     belongs_to :user, Api.Accounts.User
+    has_many :post_likes, Api.Posts.PostLike
 
     timestamps(type: :utc_datetime)
   end

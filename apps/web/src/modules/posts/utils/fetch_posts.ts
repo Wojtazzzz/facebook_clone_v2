@@ -9,6 +9,7 @@ const schema = z.object({
 			id: z.number(),
 			content: z.string(),
 			is_liked: z.boolean(),
+			likes: z.number(),
 			inserted_at: z.string(),
 			user: z.object({
 				id: z.number(),
