@@ -1,6 +1,7 @@
 defmodule Api.Posts do
   @moduledoc """
-  The Posts context.
+  The Posts context provides functions to manage posts and interactions such as likes,
+  comments or retrieving detailed user activities.
   """
 
   import Ecto.Query, warn: false
@@ -11,17 +12,19 @@ defmodule Api.Posts do
   alias Api.Accounts
 
   @doc """
-  Gets a list of posts assigned to the specified user.
+  Gets a list of posts created by the specified user.
+
+  Returns an empty list if the user does not exist or has no posts.
 
   ## Examples
 
+      iex> get_user_posts(1)
+      [%Post{}, %Post{}]
+
       iex> get_user_posts(123)
-      %Post{}
-
-      iex> get_user_posts(456)
-      ** (Ecto.NoResultsError)
-
+      []
   """
+  @spec get_user_posts(integer) :: [Post.t()]
   def get_user_posts(user_id) do
     Post
     |> Ecto.Query.where(user_id: ^user_id)
@@ -29,17 +32,34 @@ defmodule Api.Posts do
   end
 
   @doc """
-  Gets a list of posts assigned to the specified user and his friends.
+  Gets a list of posts created by the specified user and his friends.
+
+  Posts are sorted by insertion time in descending order. Paginated using `offset` and `limit`.
+
+  Raises `KeyError` if the user does not exist.
+
+  Returns an empty list if the user and his friends have no posts.
 
   ## Examples
 
-      iex> get_posts_for_user(123)
-      %Post{}
-
-      iex> get_posts_for_user(456)
-      ** (Ecto.NoResultsError)
-
+      iex> get_posts_for_user(1)
+      [
+        %{
+          id: 1,
+          user: %{
+            id: 1,
+            first_name: "John",
+            last_name: "Doe",
+            image_url: "https://gravatar.com/avatar/b0a8c4bbc0ef26b4f5be6d8f2af30634?s=400&d=robohash&r=x"
+          },
+          inserted_at: ~U[2025-01-20 20:13:20Z],
+          content: "Lorem ipsum dolor sit amet consectetur",
+          is_liked: false,
+          likes: 1
+        }
+      ]
   """
+  @spec get_posts_for_user(integer, integer, integer) :: [map()]
   def get_posts_for_user(user_id, offset, limit)
       when is_integer(user_id) and is_integer(offset) and is_integer(limit) do
     friends = Accounts.get_user_friends(user_id)
@@ -71,6 +91,32 @@ defmodule Api.Posts do
     )
   end
 
+  @doc """
+  Adds a like to the post.
+
+  Raises `Ecto.ConstraintError` when user does not exist.
+
+  ## Parameters
+  - `attrs`: A map with keys `:user_id` (integer) and `:post_id` (integer).
+
+  ## Returns
+  - `{:ok, %PostLike{}}` on success.
+  - `{:error, %Ecto.Changeset{}}` if the post is already liked.
+  - `{:error, String.t()}` if the post does not exist.
+
+  ## Examples
+
+      iex> create_post_like(%{user_id: 1, post_id: 1})
+      {:ok, %Api.Posts.PostLike{}}
+
+      iex> create_post_like(%{user_id: 1, post_id: 1})
+      {:error, %Ecto.Changeset{}}
+
+      iex> create_post_like(%{user_id: 1, post_id: 12343})
+      {:error, "Post does not exist."}
+  """
+  @spec create_post_like(map()) ::
+          {:ok, Api.Posts.PostLike.t()} | {:error, Ecto.Changeset.t()} | {:error, String.t()}
   def create_post_like(attrs) do
     from(p in Post, where: p.id == ^attrs.post_id)
     |> Repo.one()
@@ -85,6 +131,27 @@ defmodule Api.Posts do
     end
   end
 
+  @doc """
+  Removes a like from the post.
+
+  Returns an error tuple if post or user do not exist or user did not like that post.
+
+  ## Parameters
+  - `attrs`: A map with keys `:user_id` (integer) and `:post_id` (integer).
+
+  ## Returns
+  - `{:ok, %Api.Posts.PostLike{}}` on success.
+  - `{:error, String.t()}` on error.
+
+  ## Examples
+
+      iex> delete_post_like(%{user_id: 1, post_id: 1})
+      {:ok, %Api.Posts.PostLike{}}
+
+      iex> delete_post_like(%{user_id: 1, post_id: 2})
+      {:error, "The user did not like that post."}
+  """
+  @spec delete_post_like(map()) :: {:ok, Api.Posts.PostLike.t()} | {:error, String.t()}
   def delete_post_like(%{post_id: post_id, user_id: user_id}) do
     from(pl in PostLike, where: pl.post_id == ^post_id and pl.user_id == ^user_id)
     |> Repo.one()
@@ -98,19 +165,31 @@ defmodule Api.Posts do
   end
 
   @doc """
-  Gets a single post by id.
+  Gets a detailed information about a single post, including author details and whether the given user liked the post.
 
-  Raises `Ecto.NoResultsError` if the Post does not exist.
+  Raises `KeyError` if the user does not exist.
 
-  Examples
+  ## Parameters
+  - `post_id`: The ID of the post.
+  - `user_id`: The ID of the user.
 
-      iex> get_post!(123)
-      %Post{}
-
-      iex> get_post!(456)
-      ** (Ecto.NoResultsError)
-
+  ## Examples
+      iex> get_posts_for_user(1)
+      %{
+        id: 1,
+        user: %{
+          id: 1,
+          first_name: "John",
+          last_name: "Doe",
+          image_url: "https://gravatar.com/avatar/b0a8c4bbc0ef26b4f5be6d8f2af30634?s=400&d=robohash&r=x"
+        },
+        inserted_at: ~U[2025-01-20 20:13:20Z],
+        content: "Lorem ipsum dolor sit amet",
+        is_liked: true,
+        likes: 1
+      }
   """
+  @spec get_post_data_by_id!(integer, integer) :: map()
   def get_post_data_by_id!(post_id, user_id) when is_integer(post_id) and is_integer(user_id) do
     Repo.one(
       from p in Post,
