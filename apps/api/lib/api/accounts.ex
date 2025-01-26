@@ -429,14 +429,17 @@ defmodule Api.Accounts do
           posts:
             ^from(
               p in Post,
-              left_join: pl in "post_likes",
-              on: pl.post_id == p.id and pl.user_id == ^user_id,
+              left_join: pl in assoc(p, :post_likes),
+              left_join: plu in "post_likes",
+              on: plu.post_id == p.id and plu.user_id == ^user_id,
+              group_by: [p.id, plu.id],
               limit: ^limit,
               offset: ^offset,
               select: %{
                 id: p.id,
                 content: p.content,
-                is_liked: not is_nil(pl.id),
+                is_liked: not is_nil(plu.id),
+                likes: count(pl.id),
                 inserted_at: p.inserted_at
               }
             )

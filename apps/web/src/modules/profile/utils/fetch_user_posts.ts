@@ -15,6 +15,7 @@ const schema = z.object({
 				inserted_at: z.string(),
 				content: z.string(),
 				is_liked: z.boolean(),
+				likes: z.number(),
 			}),
 		),
 	}),

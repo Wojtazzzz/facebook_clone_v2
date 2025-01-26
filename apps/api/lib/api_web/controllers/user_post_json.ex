@@ -21,7 +21,8 @@ defmodule ApiWeb.UserPostJSON do
       id: post.id,
       content: post.content,
       inserted_at: post.inserted_at,
-      is_liked: post.is_liked
+      is_liked: post.is_liked,
+      likes: post.likes
     }
   end
 end
