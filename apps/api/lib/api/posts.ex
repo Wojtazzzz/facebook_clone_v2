@@ -215,4 +215,21 @@ defmodule Api.Posts do
         }
     )
   end
+
+  @doc """
+  Create a single post.
+
+  ## Examples
+      iex> create_post(%{content: "Lorem ipsum.", user_id: 1})
+      {:ok, %Api.Posts.Post{}}
+
+      iex> create_post(%{content: "Lorem ipsum."})
+      {:error, changeset}
+  """
+  @spec create_post(map()) :: {:ok, Ecto.Schema.t()} | {:error, Ecto.Changeset.t()}
+  def create_post(attrs) do
+    %Api.Posts.Post{}
+    |> Post.changeset(attrs)
+    |> Repo.insert()
+  end
 end

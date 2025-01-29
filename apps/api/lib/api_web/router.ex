@@ -37,7 +37,7 @@ defmodule ApiWeb.Router do
 
     get "/users/:user_id/posts", UserPostController, :index, constraints: %{id: ~r/^\d+$/}
 
-    get "/posts", PostController, :index
+    resources "/posts", PostController, only: [:index, :create]
 
     post "/post_likes/:post_id", PostLikeController, :create
     delete "/post_likes/:post_id", PostLikeController, :delete

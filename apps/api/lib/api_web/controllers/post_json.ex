@@ -8,6 +8,19 @@ defmodule ApiWeb.PostJSON do
     }
   end
 
+  def new(params) do
+    data(
+      Map.merge(
+        params.post,
+        %{
+          is_liked: false,
+          likes: 0,
+          user: params.conn.assigns.current_user
+        }
+      )
+    )
+  end
+
   defp data(post) do
     %{
       id: post.id,

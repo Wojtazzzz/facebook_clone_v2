@@ -14,8 +14,8 @@ defmodule Api.Posts.Post do
   @doc false
   def changeset(post, attrs) do
     post
-    |> cast(attrs, [:content])
-    |> validate_required([:content])
+    |> cast(attrs, [:content, :user_id])
+    |> validate_required([:content, :user_id])
     |> validate_length(:content, min: 3, max: 1024)
   end
 end
