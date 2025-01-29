@@ -12,7 +12,7 @@ type DialogTitleProps = {
 
 export const DialogTitle = ({ children }: DialogTitleProps) => {
 	return (
-		<div className="flex items-center">
+		<div className="flex items-center px-4 pb-4  border-b border-b-gray-500 text-xl font-semibold">
 			<div className="w-1/3"></div>
 
 			<div className="w-1/3 flex justify-center text-center">

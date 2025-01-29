@@ -1,6 +1,8 @@
 import { UserPostsList } from '@/modules/profile/components/user_posts_list';
 import { fetchUserPosts } from '@/modules/profile/utils/fetch_user_posts';
+import { CreatePostModal } from '@/shared/create_post_dialog/create_post_dialog';
 import { PROFILE_PAGE_POSTS_PER_PAGE } from '@/utils/constants';
+import { fetchMe } from '@/utils/fetch_me';
 
 type ProfilePostsPageProps = {
 	params: Promise<{
@@ -17,13 +19,18 @@ export default async function ProfilePostsPage({
 		limit: PROFILE_PAGE_POSTS_PER_PAGE,
 	});
 
+	const me = await fetchMe();
+
 	return (
 		<div className="space-y-6">
 			<div className="bg-bg-secondary rounded-lg p-4 mb-4">
-				<input
-					type="text"
-					placeholder="What's on your mind?"
-					className="w-full bg-bg-accent hover:bg-bg-accent-hover p-3 rounded-md text-gray-300"
+				<CreatePostModal
+					user={me}
+					trigger={
+						<button className="w-full bg-bg-accent hover:bg-bg-accent-hover p-3 rounded-md text-gray-400 text-left">
+							What's on your mind?
+						</button>
+					}
 				/>
 			</div>
 
